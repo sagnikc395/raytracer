@@ -1,8 +1,10 @@
-import vec3
+from raytracer import vec3
 import sys
 
+Color = vec3.Vec3
 
-def write_color(pixel_color: vec3.Vec3):
+
+def write_color(pixel_color: Color):
 	r = pixel_color.X()
 	g = pixel_color.Y()
 	b = pixel_color.Z()
@@ -14,5 +16,5 @@ def write_color(pixel_color: vec3.Vec3):
 	bbyte = int(255.999 * b)
 
 	# write out the pixel color component
-	sys.stdout.write('%d %d %d\n', rbyte, gbyte, bbyte)
+	sys.stdout.write(f'{rbyte} {gbyte} {bbyte}\n')
 	sys.stdout.flush()

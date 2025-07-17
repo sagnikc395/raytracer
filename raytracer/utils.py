@@ -1,7 +1,7 @@
 ## common utility files
 
 ### vector utility functions
-import vec3
+from raytracer import vec3
 import numpy as np
 
 
@@ -23,15 +23,16 @@ def mult_scalar(u: vec3.Vec3, t: float):
 
 
 def div_scalar(u: vec3.Vec3, t: float):
-	return u * (1 // t)
+	return u * (1.0 / t)
 
 
-def dot_product(u: vec3.Vec3, v: vec3.Vec3):
-	return np.dot(u, v)
+def dot_product(u: vec3.Vec3, v: vec3.Vec3) -> float:
+	return float(np.dot(u.e, v.e))
 
 
 def cross_product(u: vec3.Vec3, v: vec3.Vec3):
-	return np.cross(u, v)
+	result = np.cross(u, v)
+	return vec3.Vec3(*result)
 
 
 def unit_vector(v: vec3.Vec3):

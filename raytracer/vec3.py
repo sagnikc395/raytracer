@@ -3,10 +3,8 @@ import math
 
 
 class Vec3:
-	e = np.array([], dtype=float)
-
 	def __init__(self, x=0.0, y=0.0, z=0.0):
-		self.e.append(x, y, z)
+		self.e = np.array([x, y, z], dtype=float)
 
 	def X(self):
 		return self.e[0]
@@ -18,7 +16,7 @@ class Vec3:
 		return self.e[2]
 
 	def __neg__(self):
-		return self.e * -1
+		return Vec3(*(-self.e))
 
 	def item_at(self, index):
 		if index >= len(self.e):
@@ -26,20 +24,35 @@ class Vec3:
 		return self.e[index]
 
 	def __iadd__(self, other: np.array):
-		return self.e + other
+		self.e += other.e
+		return self
 
 	def __imul__(self, other: float):
 		# broadcasting
-		return self.e * other
+		self.e *= other
+		return self
 
-	def __idiv__(self, other: float):
-		return self.e / other
+	def __itruediv__(self, other: float):
+		self.e /= other
+		return self
 
 	def _length_squared(self) -> float:
-		return self.e[0] * self.e[0] + self.e[1] * self.e[1] + self.e[2] * self.e[2]
+		return np.dot(self.e, self.e)
 
 	def length(self) -> int:
 		return math.sqrt(self._length_squared())
 
 	def __repr__(self) -> str:
 		return ' '.join(self.e)
+
+	def __add__(self, other):
+		return Vec3(*(self.e + other.e))
+
+	def __sub__(self, other):
+		return Vec3(*(self.e - other.e))
+
+	def __mul__(self, t: float):
+		return Vec3(*(self.e * t))
+
+	def __truediv__(self, t: float):
+		return Vec3(*(self.e / t))
