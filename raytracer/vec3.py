@@ -40,3 +40,6 @@ class Vec3:
 
 	def length(self) -> int:
 		return math.sqrt(self._length_squared())
+
+	def __repr__(self) -> str:
+		return ' '.join(self.e)
