@@ -8,23 +8,30 @@ from raytracer.ray import Ray
 from raytracer.utils import unit_vector,dot_product 
 
 
-IMAGE_WIDTH = 256
-IMAGE_HEIGHT = 256
+IMAGE_WIDTH = 300
+IMAGE_HEIGHT = 300
 
 
 def hit_sphere(center: Vec3, radius: float,r: Ray):
 	# placing a small sphere at -1 and on z-axis and intersecting it
 	oc = center - r.origin()
-	a = dot_product(r.direction(), r.direction())
-	b = dot_product(r.direction(),oc) * (-2.0)
-	c = dot_product(oc,oc) - (radius * radius)
-	discriminant = (b*b) - (4*a*c)
+	#a = dot_product(r.direction(), r.direction())
+	#b = dot_product(r.direction(),oc) * (-2.0)
+	#c = dot_product(oc,oc) - (radius * radius)
+	#discriminant = (b*b) - (4*a*c)
+
+	# simplify the hit_sphere code
+	a = r.direction()._length_squared()
+	h = dot_product(r.direction(),oc)
+	c = oc._length_squared() - (radius* radius)
+	discriminant = (h*h) - (a*c)
+
 
 	#now instead of running red, render the sphere according to its normal vectors
 	if discriminant < 0:
 		return -1.0
 	else:
-		return (-b - math.sqrt(discriminant)) / (2.0*a)
+		return (h - math.sqrt(discriminant)) / (a)
 	
 
 
