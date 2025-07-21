@@ -4,16 +4,31 @@ import logging
 from raytracer.vec3 import Vec3
 from raytracer.color import write_color, Color
 from raytracer.ray import Ray
-from raytracer.utils import unit_vector
+from raytracer.utils import unit_vector,dot_product 
 
 
 IMAGE_WIDTH = 256
 IMAGE_HEIGHT = 256
 
 
+def hit_sphere(center: Vec3, radius: float,r: Ray):
+	# placing a small sphere at -1 and on z-axis and intersecting it
+	oc = center - r.origin()
+	a = dot_product(r.direction(), r.direction())
+	b = dot_product(r.direction(),oc) * (-2.0)
+	c = dot_product(oc,oc) - (radius * radius)
+	discriminant = (b*b) - (4*a*c)
+	return discriminant >= 0
+	
+
+
 def ray_color(r: Ray) -> Color:
 	# this will just return the black color
 	# return Color(0.0,0.0,0.0)
+
+	if hit_sphere(Vec3(0,0,-1),0.5,r):
+		return Color(1,0,0)
+	
 	unit_direction = unit_vector(r.direction())
 	a = (unit_direction.Y() + 1.0) * 0.5
 	return Color(1.0, 1.0, 1.0) * (1.0 - a) + Color(0.5, 0.7, 1.0) * a
