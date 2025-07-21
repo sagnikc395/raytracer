@@ -1,5 +1,6 @@
 import sys
 import logging
+import math
 
 from raytracer.vec3 import Vec3
 from raytracer.color import write_color, Color
@@ -18,7 +19,12 @@ def hit_sphere(center: Vec3, radius: float,r: Ray):
 	b = dot_product(r.direction(),oc) * (-2.0)
 	c = dot_product(oc,oc) - (radius * radius)
 	discriminant = (b*b) - (4*a*c)
-	return discriminant >= 0
+
+	#now instead of running red, render the sphere according to its normal vectors
+	if discriminant < 0:
+		return -1.0
+	else:
+		return (-b - math.sqrt(discriminant)) / (2.0*a)
 	
 
 
@@ -26,8 +32,10 @@ def ray_color(r: Ray) -> Color:
 	# this will just return the black color
 	# return Color(0.0,0.0,0.0)
 
-	if hit_sphere(Vec3(0,0,-1),0.5,r):
-		return Color(1,0,0)
+	t = hit_sphere(Vec3(0,0,-1),0.5,r)
+	if t>0:
+		N = unit_vector(r.at(t) - Vec3(0,0,-1))
+		return Color(N.X()+1,N.Y()+1,N.Z()+1) * 0.5 
 	
 	unit_direction = unit_vector(r.direction())
 	a = (unit_direction.Y() + 1.0) * 0.5
