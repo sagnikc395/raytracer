@@ -6,12 +6,21 @@
 from abc import ABC, abstractmethod
 from raytracer.ray import Ray
 from raytracer.vec3 import Vec3
+from raytracer.utils import dot_product 
 
 
 class HitRecord:
     p: Vec3
     normal: Vec3
-    t: float 
+    t: float
+    front_face: bool
+
+    @staticmethod 
+    def set_face_normal(r: Ray, outward_normal: Vec3):
+        # set the hit record normal vector
+        # parameter : outward_normal is assumed to have unit length
+        HitRecord.front_face = dot_product(r.direction(),outward_normal) < 0.0
+        HitRecord.normal =  outward_normal if HitRecord.front_face else -outward_normal  
 
 
 class Hittable(ABC):
