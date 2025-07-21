@@ -1,6 +1,8 @@
 ## raytracer
 
-Raytracer in a weekend implemented in Python.
+Raytracer in a weekend implemented in Python. 
+
+Ref: https://raytracing.github.io/books/RayTracingInOneWeekend.html
 
 ### Build Instructions
 
